@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
 
 * {
   box-sizing: border-box;
@@ -10,7 +10,7 @@ html {
 
 body {
   margin: 0;
-  background: #f7f6f2;
+  background: #f8f7f2;
   color: #111111;
   font-family: "DM Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -28,6 +28,6 @@ a {
 }
 
 ::selection {
-  background: #d97745;
-  color: #ffffff;
+  background: #ffd43b;
+  color: #111111;
 }

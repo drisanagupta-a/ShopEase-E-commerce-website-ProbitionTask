@@ -1,55 +1,22 @@
-import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 import "./App.css";
-
-const Home = () => {
-  return (
-    <main>
-      <section className="heroSection">
-        <div className="heroTopLabel">
-          CURATED MARKETPLACE · 2026
-        </div>
-
-        <h1 className="heroTitle">
-          THE THINGS
-          <br/>
-          WORTH HAVING.
-        </h1>
-
-        <p className="heroText">
-          Curated for your everyday.
-        </p>
-
-        <NavLink className="heroButton" to="/products">
-          SHOP NOW
-          <span>→</span>
-        </NavLink>
-      </section>
-
-      <section className="introSection">
-        <p className="sectionLabel">01 / SHOP EASE</p>
-
-        <h2>
-          A CURATED
-          <br/>
-          EVERYDAY.
-        </h2>
-
-        <p className="introText">
-          Discover things worth bringing into your everyday life.
-          From technology and fashion to beauty and home,
-          everything is selected with intention.
-        </p>
-      </section>
-    </main>
-  );
-};
 
 const Products = () => {
   return (
     <main className="placeholderPage">
+      <span className="sectionLabel">SHOP EASE</span>
       <h1>SHOP</h1>
-      <p>Products coming next.</p>
+      <p>Products will be displayed here.</p>
+    </main>
+  );
+};
+
+const EmptyPage = () => {
+  return (
+    <main className="placeholderPage">
+      <h1>COMING SOON</h1>
     </main>
   );
 };
@@ -57,15 +24,15 @@ const Products = () => {
 const App = () => {
   return (
     <BrowserRouter>
-      <Navbar/>
+      <Navbar />
 
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/products" element={<Products/>}/>
-        <Route path="/products/:category" element={<Products/>}/>
-        <Route path="/wishlist" element={<div/>}/>
-        <Route path="/cart" element={<div/>}/>
-        <Route path="/profile" element={<div/>}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/:category" element={<Products />} />
+        <Route path="/wishlist" element={<EmptyPage />} />
+        <Route path="/cart" element={<EmptyPage />} />
+        <Route path="/profile" element={<EmptyPage />} />
       </Routes>
     </BrowserRouter>
   );
