@@ -1,0 +1,47 @@
+/* ShopEase Toast Notification */
+
+.toast {
+  position: fixed;
+  top: 90px;
+  right: 24px;
+  z-index: 1000;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 14px 18px;
+  border: 1px solid #e5e2da;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  animation: toastAppear 0.2s ease-out;
+}
+
+.toast-success {
+  border-left: 4px solid #45a878;
+}
+
+.toast-error {
+  border-left: 4px solid #e43d30;
+}
+
+@keyframes toastAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .toast {
+    top: 75px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+  }
+}
