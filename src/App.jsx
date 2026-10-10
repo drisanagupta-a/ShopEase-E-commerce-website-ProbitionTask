@@ -27,6 +27,7 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element={<EmptyPage />}/>
 
           <Route
             path="/products/:category"
