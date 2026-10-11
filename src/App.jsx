@@ -9,6 +9,7 @@ import OrderConfirmation from "./pages/OrderConfirmation";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import "./App.css";
 import Wishlist from "./pages/Wishlist";
+import Profile from "./pages/Profile";
 
 function EmptyPage() {
   return (
@@ -37,7 +38,7 @@ function App() {
             element={<OrderConfirmation />}
           />
 <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/profile" element={<EmptyPage />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<EmptyPage />} />
         </Routes>
       </BrowserRouter>
