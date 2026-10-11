@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
+import { formatCurrency } from "../utils/formatCurrency";
 import "../styles/orderConfirmation.css";
 
 function OrderConfirmation() {
@@ -33,6 +34,7 @@ function OrderConfirmation() {
         <div className="confirmationCard">
           <h1>Order not found</h1>
           <p>We couldn't find the requested order details.</p>
+
           <Link to="/products" className="confirmationButton">
             Continue Shopping
           </Link>
@@ -46,7 +48,10 @@ function OrderConfirmation() {
       <section className="confirmationCard">
         <div className="confirmationCheck">✓</div>
 
-        <p className="confirmationEyebrow">ORDER PLACED SUCCESSFULLY</p>
+        <p className="confirmationEyebrow">
+          ORDER PLACED SUCCESSFULLY
+        </p>
+
         <h1>Thank you for shopping with ShopEase!</h1>
 
         <p className="confirmationMessage">
@@ -60,11 +65,18 @@ function OrderConfirmation() {
 
         <div className="confirmationDetails">
           <h2>Delivery Details</h2>
-          <p><strong>{order.customer.fullName}</strong></p>
-          <p>{order.customer.address}</p>
+
           <p>
-            {order.customer.city}, {order.customer.state} - {order.customer.pincode}
+            <strong>{order.customer.fullName}</strong>
           </p>
+
+          <p>{order.customer.address}</p>
+
+          <p>
+            {order.customer.city}, {order.customer.state} -{" "}
+            {order.customer.pincode}
+          </p>
+
           <p>{order.customer.email}</p>
           <p>{order.customer.phone}</p>
         </div>
@@ -74,23 +86,32 @@ function OrderConfirmation() {
 
           {order.items.map((item) => (
             <div className="confirmationProduct" key={item.id}>
-              <span>{item.title} × {item.quantity}</span>
+              <span>
+                {item.title} × {item.quantity}
+              </span>
+
               <strong>
-                ${(Number(item.price) * Number(item.quantity)).toFixed(2)}
+                {formatCurrency(
+                  Number(item.price) * Number(item.quantity)
+                )}
               </strong>
             </div>
           ))}
 
           <div className="confirmationProduct">
             <span>Shipping</span>
+
             <strong>
-              {order.shipping === 0 ? "FREE" : `$${order.shipping.toFixed(2)}`}
+              {Number(order.shipping) === 0
+                ? "FREE"
+                : formatCurrency(order.shipping)}
             </strong>
           </div>
 
           <div className="confirmationFinalTotal">
             <span>Total</span>
-            <strong>${order.total.toFixed(2)}</strong>
+
+            <strong>{formatCurrency(order.total)}</strong>
           </div>
         </div>
 

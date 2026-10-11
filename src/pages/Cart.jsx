@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Trash2, Minus, Plus, ShoppingBag, ArrowLeft } from "lucide-react";
+import {
+  Trash2,
+  Minus,
+  Plus,
+  ShoppingBag,
+  ArrowLeft
+} from "lucide-react";
 import { useToast } from "../context/useToast";
+import { formatCurrency } from "../utils/formatCurrency";
 import "../styles/Cart.css";
 
 function Cart() {
@@ -38,7 +45,10 @@ function Cart() {
     setCart(updatedCart);
 
     try {
-      localStorage.setItem("shopease-cart", JSON.stringify(updatedCart));
+      localStorage.setItem(
+        "shopease-cart",
+        JSON.stringify(updatedCart)
+      );
     } catch {
       showToast("Unable to save your cart.", "error");
     }
@@ -60,7 +70,9 @@ function Cart() {
   }
 
   function removeItem(id) {
-    const updatedCart = cart.filter((item) => item.id !== id);
+    const updatedCart = cart.filter(
+      (item) => item.id !== id
+    );
 
     saveCart(updatedCart);
     showToast("Product removed from cart.", "success");
@@ -81,7 +93,14 @@ function Cart() {
     0
   );
 
-  const shipping = subtotal === 0 || subtotal >= 100 ? 0 : 5;
+  const FREE_SHIPPING_THRESHOLD = 999;
+  const SHIPPING_FEE = 49;
+
+  const shipping =
+    subtotal === 0 || subtotal >= FREE_SHIPPING_THRESHOLD
+      ? 0
+      : SHIPPING_FEE;
+
   const total = subtotal + shipping;
 
   if (cart.length === 0) {
@@ -99,7 +118,10 @@ function Cart() {
             Explore our collection and find something you love.
           </p>
 
-          <Link to="/products" className="continueShoppingButton">
+          <Link
+            to="/products"
+            className="continueShoppingButton"
+          >
             Start Shopping
           </Link>
         </div>
@@ -144,7 +166,10 @@ function Cart() {
                   to={`/product/${item.id}`}
                   className="cartProductImage"
                 >
-                  <img src={item.thumbnail} alt={item.title} />
+                  <img
+                    src={item.thumbnail}
+                    alt={item.title}
+                  />
                 </Link>
 
                 <div className="cartProductInfo">
@@ -169,7 +194,7 @@ function Cart() {
               </div>
 
               <div className="cartUnitPrice">
-                ${item.price.toFixed(2)}
+                {formatCurrency(item.price)}
               </div>
 
               <div className="quantityControl">
@@ -193,13 +218,16 @@ function Cart() {
               </div>
 
               <div className="cartLineTotal">
-                ${(item.price * item.quantity).toFixed(2)}
+                {formatCurrency(item.price * item.quantity)}
               </div>
             </article>
           ))}
 
           <div className="cartBottomActions">
-            <Link to="/products" className="backToShopButton">
+            <Link
+              to="/products"
+              className="backToShopButton"
+            >
               <ArrowLeft size={17} />
               Continue Shopping
             </Link>
@@ -211,27 +239,34 @@ function Cart() {
 
           <div className="summaryRow">
             <span>Subtotal ({totalItems} items)</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatCurrency(subtotal)}</span>
           </div>
 
           <div className="summaryRow">
             <span>Shipping</span>
             <span>
-              {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
+              {shipping === 0
+                ? "FREE"
+                : formatCurrency(shipping)}
             </span>
           </div>
 
-          {subtotal > 0 && subtotal < 100 && (
-            <p className="shippingNote">
-              Spend ${(100 - subtotal).toFixed(2)} more to get free shipping.
-            </p>
-          )}
+          {subtotal > 0 &&
+            subtotal < FREE_SHIPPING_THRESHOLD && (
+              <p className="shippingNote">
+                Spend{" "}
+                {formatCurrency(
+                  FREE_SHIPPING_THRESHOLD - subtotal
+                )}{" "}
+                more to get free shipping.
+              </p>
+            )}
 
           <div className="summaryDivider"></div>
 
           <div className="summaryTotal">
             <span>Total</span>
-            <strong>${total.toFixed(2)}</strong>
+            <strong>{formatCurrency(total)}</strong>
           </div>
 
           <button

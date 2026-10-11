@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProduct, getShopEaseCategory } from "../services/api";
 import { useToast } from "../context/useToast";
+import { formatCurrency } from "../utils/formatCurrency";
 import "../styles/ProductDetails.css";
 
 function ProductDetails() {
@@ -89,6 +90,7 @@ function ProductDetails() {
       <main className="productDetailsMessage">
         <h2>Product unavailable</h2>
         <p>{error || "We couldn't find this product."}</p>
+
         <Link to="/products" className="detailsBackButton">
           Back to Products
         </Link>
@@ -165,13 +167,14 @@ function ProductDetails() {
           </div>
 
           <div className="detailsPrice">
-            <strong>${product.price.toFixed(2)}</strong>
+            <strong>{formatCurrency(product.price)}</strong>
 
             {product.discountPercentage > 0 && (
               <>
                 <span className="detailsOriginalPrice">
-                  ${originalPrice.toFixed(2)}
+                  {formatCurrency(originalPrice)}
                 </span>
+
                 <span className="detailsSaving">
                   Save {Math.round(product.discountPercentage)}%
                 </span>

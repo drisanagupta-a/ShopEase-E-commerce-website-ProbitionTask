@@ -1,6 +1,7 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useToast } from "../context/useToast";
+import { formatCurrency } from "../utils/formatCurrency";
 import "../styles/checkout.css";
 
 function Checkout() {
@@ -15,12 +16,20 @@ function Checkout() {
 
       if (!Array.isArray(savedCart)) return [];
 
-      return savedCart.filter(
-        (item) =>
-          item &&
-          Number(item.quantity) > 0 &&
-          Number(item.price) >= 0
-      );
+      return savedCart
+        .filter(
+          (item) =>
+            item &&
+            Number.isFinite(Number(item.id)) &&
+            Number(item.quantity) > 0 &&
+            Number.isFinite(Number(item.price)) &&
+            Number(item.price) >= 0
+        )
+        .map((item) => ({
+          ...item,
+          quantity: Number(item.quantity),
+          price: Number(item.price)
+        }));
     } catch {
       return [];
     }
@@ -44,7 +53,14 @@ function Checkout() {
     0
   );
 
-  const shipping = subtotal === 0 || subtotal >= 100 ? 0 : 5;
+  const FREE_SHIPPING_THRESHOLD = 999;
+  const SHIPPING_FEE = 49;
+
+  const shipping =
+    subtotal === 0 || subtotal >= FREE_SHIPPING_THRESHOLD
+      ? 0
+      : SHIPPING_FEE;
+
   const total = subtotal + shipping;
 
   function handleChange(event) {
@@ -77,7 +93,8 @@ function Checkout() {
     ) {
       newErrors.fullName = "Name must contain 3–50 characters.";
     } else if (!namePattern.test(form.fullName.trim())) {
-      newErrors.fullName = "Use letters, spaces, apostrophes, dots or hyphens only.";
+      newErrors.fullName =
+        "Use letters, spaces, apostrophes, dots or hyphens only.";
     }
 
     if (!form.email.trim()) {
@@ -92,7 +109,8 @@ function Checkout() {
     if (!form.phone.trim()) {
       newErrors.phone = "Phone number is required.";
     } else if (!phonePattern.test(form.phone.trim())) {
-      newErrors.phone = "Enter a valid 10-digit Indian mobile number.";
+      newErrors.phone =
+        "Enter a valid 10-digit Indian mobile number.";
     }
 
     if (!form.address.trim()) {
@@ -103,7 +121,8 @@ function Checkout() {
     ) {
       newErrors.address = "Address must contain 10–150 characters.";
     } else if (!/[A-Za-z]/.test(form.address)) {
-      newErrors.address = "Address must include a street or locality name.";
+      newErrors.address =
+        "Address must include a street or locality name.";
     }
 
     if (!form.city.trim()) {
@@ -161,7 +180,9 @@ function Checkout() {
         email: form.email.trim(),
         address: form.address.trim(),
         city: form.city.trim(),
-        state: form.state.trim()
+        state: form.state.trim(),
+        phone: form.phone.trim(),
+        pincode: form.pincode.trim()
       },
       items: cart,
       subtotal,
@@ -185,7 +206,11 @@ function Checkout() {
         JSON.stringify([order, ...orders])
       );
 
-      localStorage.setItem("shopease-last-order", JSON.stringify(order));
+      localStorage.setItem(
+        "shopease-last-order",
+        JSON.stringify(order)
+      );
+
       localStorage.removeItem("shopease-cart");
 
       navigate(`/order-confirmation/${orderId}`);
@@ -199,6 +224,7 @@ function Checkout() {
       <main className="checkoutMessage">
         <h1>Your cart is empty</h1>
         <p>Add products to your cart before checking out.</p>
+
         <Link to="/products" className="checkoutPrimaryButton">
           Continue Shopping
         </Link>
@@ -215,7 +241,11 @@ function Checkout() {
       </div>
 
       <div className="checkoutLayout">
-        <form className="checkoutForm" onSubmit={handleSubmit} noValidate>
+        <form
+          className="checkoutForm"
+          onSubmit={handleSubmit}
+          noValidate
+        >
           <section className="checkoutSection">
             <h2>Contact Information</h2>
 
@@ -231,8 +261,11 @@ function Checkout() {
                 maxLength={50}
                 autoComplete="name"
                 aria-invalid={Boolean(errors.fullName)}
-                aria-describedby={errors.fullName ? "fullNameError" : undefined}
+                aria-describedby={
+                  errors.fullName ? "fullNameError" : undefined
+                }
               />
+
               {errors.fullName && (
                 <p className="fieldError" id="fullNameError">
                   {errors.fullName}
@@ -252,8 +285,11 @@ function Checkout() {
                 maxLength={100}
                 autoComplete="email"
                 aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? "emailError" : undefined}
+                aria-describedby={
+                  errors.email ? "emailError" : undefined
+                }
               />
+
               {errors.email && (
                 <p className="fieldError" id="emailError">
                   {errors.email}
@@ -274,8 +310,11 @@ function Checkout() {
                 inputMode="numeric"
                 autoComplete="tel"
                 aria-invalid={Boolean(errors.phone)}
-                aria-describedby={errors.phone ? "phoneError" : undefined}
+                aria-describedby={
+                  errors.phone ? "phoneError" : undefined
+                }
               />
+
               {errors.phone && (
                 <p className="fieldError" id="phoneError">
                   {errors.phone}
@@ -288,7 +327,10 @@ function Checkout() {
             <h2>Shipping Address</h2>
 
             <div className="checkoutField">
-              <label htmlFor="address">House Number and Street Address</label>
+              <label htmlFor="address">
+                House Number and Street Address
+              </label>
+
               <textarea
                 id="address"
                 name="address"
@@ -299,11 +341,15 @@ function Checkout() {
                 maxLength={150}
                 autoComplete="street-address"
                 aria-invalid={Boolean(errors.address)}
-                aria-describedby={errors.address ? "addressError" : "addressHelp"}
+                aria-describedby={
+                  errors.address ? "addressError" : "addressHelp"
+                }
               />
+
               <p className="fieldHint" id="addressHelp">
                 Enter 10–150 characters.
               </p>
+
               {errors.address && (
                 <p className="fieldError" id="addressError">
                   {errors.address}
@@ -323,8 +369,11 @@ function Checkout() {
                 maxLength={50}
                 autoComplete="address-level2"
                 aria-invalid={Boolean(errors.city)}
-                aria-describedby={errors.city ? "cityError" : undefined}
+                aria-describedby={
+                  errors.city ? "cityError" : undefined
+                }
               />
+
               {errors.city && (
                 <p className="fieldError" id="cityError">
                   {errors.city}
@@ -344,8 +393,11 @@ function Checkout() {
                 maxLength={50}
                 autoComplete="address-level1"
                 aria-invalid={Boolean(errors.state)}
-                aria-describedby={errors.state ? "stateError" : undefined}
+                aria-describedby={
+                  errors.state ? "stateError" : undefined
+                }
               />
+
               {errors.state && (
                 <p className="fieldError" id="stateError">
                   {errors.state}
@@ -366,8 +418,11 @@ function Checkout() {
                 inputMode="numeric"
                 autoComplete="postal-code"
                 aria-invalid={Boolean(errors.pincode)}
-                aria-describedby={errors.pincode ? "pincodeError" : undefined}
+                aria-describedby={
+                  errors.pincode ? "pincodeError" : undefined
+                }
               />
+
               {errors.pincode && (
                 <p className="fieldError" id="pincodeError">
                   {errors.pincode}
@@ -377,7 +432,7 @@ function Checkout() {
           </section>
 
           <button type="submit" className="placeOrderButton">
-            Place Order · ${total.toFixed(2)}
+            Place Order · {formatCurrency(total)}
           </button>
 
           <p className="checkoutDisclaimer">
@@ -399,7 +454,9 @@ function Checkout() {
                 </div>
 
                 <strong>
-                  ${(Number(item.price) * Number(item.quantity)).toFixed(2)}
+                  {formatCurrency(
+                    Number(item.price) * Number(item.quantity)
+                  )}
                 </strong>
               </div>
             ))}
@@ -407,17 +464,27 @@ function Checkout() {
 
           <div className="checkoutSummaryRow">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatCurrency(subtotal)}</span>
           </div>
 
           <div className="checkoutSummaryRow">
             <span>Shipping</span>
-            <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
+            <span>
+              {shipping === 0 ? "FREE" : formatCurrency(shipping)}
+            </span>
           </div>
+
+          {subtotal > 0 && subtotal < FREE_SHIPPING_THRESHOLD && (
+            <p className="shippingNote">
+              Spend{" "}
+              {formatCurrency(FREE_SHIPPING_THRESHOLD - subtotal)}{" "}
+              more to get free shipping.
+            </p>
+          )}
 
           <div className="checkoutTotal">
             <span>Total</span>
-            <strong>${total.toFixed(2)}</strong>
+            <strong>{formatCurrency(total)}</strong>
           </div>
         </aside>
       </div>

@@ -200,7 +200,7 @@ function Products() {
 
       <div className="productFilters">
         <label>
-          Maximum Price ($)
+          Maximum Price (₹)
 
           <input
             type="number"
@@ -226,18 +226,18 @@ function Products() {
           </select>
         </label>
 
-        <button
-          type="button"
-          className="productButton"
-          onClick={() => {
-            setSearch("");
-            setSort("default");
-            setMaxPrice("");
-            setMinRating("0");
-          }}
-        >
-          Clear Filters
-        </button>
+       <button
+  type="button"
+  className="clearFiltersButton"
+  onClick={() => {
+    setSearch("");
+    setSort("default");
+    setMaxPrice("");
+    setMinRating("0");
+  }}
+>
+  Clear Filters
+</button>
       </div>
 
       {filteredProducts.length === 0 ? (

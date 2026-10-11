@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, ShoppingBag, Trash2 } from "lucide-react";
 import { useToast } from "../context/useToast";
+import { formatCurrency } from "../utils/formatCurrency";
 import "../styles/wishlist.css";
 
 function Wishlist() {
@@ -25,18 +26,27 @@ function Wishlist() {
     );
 
     setWishlist(updatedWishlist);
-    localStorage.setItem(
-      "shopease-wishlist",
-      JSON.stringify(updatedWishlist)
-    );
 
-    showToast("Removed from wishlist.", "success");
+    try {
+      localStorage.setItem(
+        "shopease-wishlist",
+        JSON.stringify(updatedWishlist)
+      );
+
+      showToast("Removed from wishlist.", "success");
+    } catch {
+      showToast("Unable to update your wishlist.", "error");
+    }
   }
 
   function clearWishlist() {
-    setWishlist([]);
-    localStorage.setItem("shopease-wishlist", "[]");
-    showToast("Wishlist cleared.", "success");
+    try {
+      localStorage.setItem("shopease-wishlist", "[]");
+      setWishlist([]);
+      showToast("Wishlist cleared.", "success");
+    } catch {
+      showToast("Unable to clear your wishlist.", "error");
+    }
   }
 
   if (wishlist.length === 0) {
@@ -87,7 +97,10 @@ function Wishlist() {
               to={`/product/${product.id}`}
               className="wishlistImage"
             >
-              <img src={product.thumbnail} alt={product.title} />
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+              />
             </Link>
 
             <div className="wishlistInfo">
@@ -100,7 +113,9 @@ function Wishlist() {
                 {product.title}
               </Link>
 
-              <strong>${Number(product.price).toFixed(2)}</strong>
+              <strong>
+                {formatCurrency(product.price)}
+              </strong>
 
               <div className="wishlistActions">
                 <Link

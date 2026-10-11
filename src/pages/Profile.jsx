@@ -10,6 +10,7 @@ import {
   ShoppingBag
 } from "lucide-react";
 import { useToast } from "../context/useToast";
+import { formatCurrency } from "../utils/formatCurrency";
 import "../styles/profile.css";
 
 function getSavedData(key, fallback) {
@@ -26,7 +27,6 @@ function Profile() {
   const orders = Array.isArray(savedOrders) ? savedOrders : [];
 
   const lastOrder = getSavedData("shopease-last-order", null);
-
   const initialProfile = getSavedData("shopease-profile", null);
 
   const latestCustomer =
@@ -53,12 +53,12 @@ function Profile() {
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setForm(previous => ({
+    setForm((previous) => ({
       ...previous,
       [name]: value
     }));
 
-    setErrors(previous => ({
+    setErrors((previous) => ({
       ...previous,
       [name]: ""
     }));
@@ -68,7 +68,8 @@ function Profile() {
     const newErrors = {};
 
     if (!/^[A-Za-z][A-Za-z .'-]{1,48}$/.test(form.fullName.trim())) {
-      newErrors.fullName = "Enter a valid name with at least 2 characters.";
+      newErrors.fullName =
+        "Enter a valid name with at least 2 characters.";
     }
 
     if (
@@ -79,7 +80,8 @@ function Profile() {
     }
 
     if (!/^[6-9]\d{9}$/.test(form.phone.trim())) {
-      newErrors.phone = "Enter a valid 10-digit Indian mobile number.";
+      newErrors.phone =
+        "Enter a valid 10-digit Indian mobile number.";
     }
 
     if (
@@ -215,7 +217,9 @@ function Profile() {
         <div>
           <span className="profileEyebrow">YOUR ACCOUNT</span>
           <h1>My Profile</h1>
-          <p>Manage your personal details and keep track of your orders.</p>
+          <p>
+            Manage your personal details and keep track of your orders.
+          </p>
         </div>
 
         <div className="profileHeadingIcon">
@@ -232,7 +236,10 @@ function Profile() {
 
         <div className="profileSummaryInfo">
           <h2>{profile.fullName || "Welcome to ShopEase"}</h2>
-          <p>{profile.email || "Add your email address to complete your profile."}</p>
+          <p>
+            {profile.email ||
+              "Add your email address to complete your profile."}
+          </p>
         </div>
 
         <div className="profileOrderCount">
@@ -268,9 +275,11 @@ function Profile() {
 
         <form onSubmit={saveProfile} className="profileForm">
           <div className="profileFields">
-            {fields.map(field => (
+            {fields.map((field) => (
               <div
-                className={`profileField ${field.full ? "profileFieldFull" : ""}`}
+                className={`profileField ${
+                  field.full ? "profileFieldFull" : ""
+                }`}
                 key={field.name}
               >
                 <label htmlFor={field.name}>{field.label}</label>
@@ -406,7 +415,9 @@ function Profile() {
                   <div>
                     <span className="profileOrderLabel">ORDER ID</span>
                     <h3>
-                      {order.orderId || order.id || "Order details unavailable"}
+                      {order.orderId ||
+                        order.id ||
+                        "Order details unavailable"}
                     </h3>
                     <p>{formatDate(order.orderDate)}</p>
                   </div>
@@ -435,11 +446,10 @@ function Profile() {
                         </div>
 
                         <strong className="profileOrderedPrice">
-                          $
-                          {(
+                          {formatCurrency(
                             Number(item.price || 0) *
-                            Number(item.quantity || 1)
-                          ).toFixed(2)}
+                              Number(item.quantity || 1)
+                          )}
                         </strong>
                       </div>
                     )
@@ -449,12 +459,9 @@ function Profile() {
                 <div className="profileOrderFooter">
                   <span>Order Total</span>
                   <strong>
-                    $
-                    {Number(
-                      order.total ??
-                      order.subtotal ??
-                      0
-                    ).toFixed(2)}
+                    {formatCurrency(
+                      Number(order.total ?? order.subtotal ?? 0)
+                    )}
                   </strong>
                 </div>
               </article>
