@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useParams, Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 import { useToast } from "../context/useToast";
 import { getProducts, getShopEaseCategory } from "../services/api";
 import "../styles/products.css";
@@ -13,10 +14,23 @@ function Products() {
   const [maxPrice, setMaxPrice] = useState("");
   const [minRating, setMinRating] = useState("0");
 
+  const [wishlist, setWishlist] = useState(() => {
+    try {
+      const savedWishlist = JSON.parse(
+        localStorage.getItem("shopease-wishlist") || "[]"
+      );
+
+      return Array.isArray(savedWishlist) ? savedWishlist : [];
+    } catch {
+      return [];
+    }
+  });
+
   const [searchParams] = useSearchParams();
   const { category: pathCategory } = useParams();
   const queryCategory = searchParams.get("category") || "";
   const category = pathCategory || queryCategory;
+
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -26,7 +40,10 @@ function Products() {
         setProducts(data);
       } catch (err) {
         setError(err.message || "Unable to load products.");
-        showToast(err.message || "Unable to load products.", "error");
+        showToast(
+          err.message || "Unable to load products.",
+          "error"
+        );
       } finally {
         setLoading(false);
       }
@@ -35,8 +52,39 @@ function Products() {
     loadProducts();
   }, [showToast]);
 
+  function toggleWishlist(product) {
+    const alreadySaved = wishlist.some(
+      (item) => item.id === product.id
+    );
+
+    const updatedWishlist = alreadySaved
+      ? wishlist.filter((item) => item.id !== product.id)
+      : [...wishlist, product];
+
+    try {
+      localStorage.setItem(
+        "shopease-wishlist",
+        JSON.stringify(updatedWishlist)
+      );
+
+      setWishlist(updatedWishlist);
+
+      showToast(
+        alreadySaved
+          ? "Removed from wishlist."
+          : "Added to wishlist!",
+        "success"
+      );
+    } catch {
+      showToast("Unable to save your wishlist.", "error");
+    }
+  }
+
   function normalizeCategory(value) {
-    const normalized = value.toLowerCase().replace(/[-_]/g, " ").trim();
+    const normalized = value
+      .toLowerCase()
+      .replace(/[-_]/g, " ")
+      .trim();
 
     if (normalized === "all") return "";
     if (normalized === "home living") return "home & living";
@@ -53,16 +101,19 @@ function Products() {
       const selectedCategory = normalizeCategory(category);
 
       const matchesCategory =
-        !selectedCategory || productCategory === selectedCategory;
+        !selectedCategory ||
+        productCategory === selectedCategory;
 
       const matchesSearch = product.title
         .toLowerCase()
         .includes(search.trim().toLowerCase());
 
       const matchesPrice =
-        maxPrice === "" || product.price <= Number(maxPrice);
+        maxPrice === "" ||
+        product.price <= Number(maxPrice);
 
-      const matchesRating = product.rating >= Number(minRating);
+      const matchesRating =
+        product.rating >= Number(minRating);
 
       return (
         matchesCategory &&
@@ -77,6 +128,7 @@ function Products() {
       if (sort === "rating") return b.rating - a.rating;
       if (sort === "name") return a.title.localeCompare(b.title);
       if (sort === "newest") return b.id - a.id;
+
       return 0;
     });
 
@@ -92,7 +144,11 @@ function Products() {
     return (
       <main className="productsMessage">
         <p>{error}</p>
-        <button onClick={() => window.location.reload()}>
+
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+        >
           Try Again
         </button>
       </main>
@@ -103,14 +159,19 @@ function Products() {
     <main className="productsPage">
       <div className="productsHeading">
         <p>DISCOVER YOUR FAVOURITES</p>
+
         <h1>
           {category
             ? category === "home-living"
               ? "Home & Living"
-              : category.charAt(0).toUpperCase() + category.slice(1)
+              : category.charAt(0).toUpperCase() +
+                category.slice(1)
             : "All Products"}
         </h1>
-        <span>{filteredProducts.length} products available</span>
+
+        <span>
+          {filteredProducts.length} products available
+        </span>
       </div>
 
       <div className="productControls">
@@ -139,6 +200,7 @@ function Products() {
       <div className="productFilters">
         <label>
           Maximum Price ($)
+
           <input
             type="number"
             min="0"
@@ -150,6 +212,7 @@ function Products() {
 
         <label>
           Minimum Rating
+
           <select
             value={minRating}
             onChange={(event) => setMinRating(event.target.value)}
@@ -178,54 +241,81 @@ function Products() {
 
       {filteredProducts.length === 0 ? (
         <div className="productsMessage">
-          <p>No products found. Try changing your search or filters.</p>
+          <p>
+            No products found. Try changing your search or filters.
+          </p>
         </div>
       ) : (
         <div className="productsGrid">
-          {filteredProducts.map((product) => (
-            <div className="productCard" key={product.id}>
-              <Link
-                to={`/product/${product.id}`}
-                className="productImageBox"
-                aria-label={`View ${product.title}`}
-              >
-                <img
-                  src={product.thumbnail}
-                  alt={product.title}
-                  loading="lazy"
-                />
-              </Link>
+          {filteredProducts.map((product) => {
+            const isWishlisted = wishlist.some(
+              (item) => item.id === product.id
+            );
 
-              <div className="productInfo">
-                <p className="productCategory">
-                  {getShopEaseCategory(product.category)}
-                </p>
-
-                <h3>{product.title}</h3>
-
-                <p className="productRating">
-                  Rating: {product.rating} / 5
-                </p>
-
-                <div className="productPrice">
-                  <strong>${product.price}</strong>
-
-                  {product.discountPercentage > 0 && (
-                    <span>
-                      {Math.round(product.discountPercentage)}% OFF
-                    </span>
-                  )}
-                </div>
+            return (
+              <div className="productCard" key={product.id}>
+                <button
+                  type="button"
+                  className={`wishlistButton ${
+                    isWishlisted ? "wishlistActive" : ""
+                  }`}
+                  onClick={() => toggleWishlist(product)}
+                  aria-label={
+                    isWishlisted
+                      ? "Remove from wishlist"
+                      : "Add to wishlist"
+                  }
+                  aria-pressed={isWishlisted}
+                >
+                  <Heart
+                    size={20}
+                    fill={isWishlisted ? "currentColor" : "none"}
+                  />
+                </button>
 
                 <Link
-                  className="productButton"
                   to={`/product/${product.id}`}
+                  className="productImageBox"
+                  aria-label={`View ${product.title}`}
                 >
-                  View Product
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    loading="lazy"
+                  />
                 </Link>
+
+                <div className="productInfo">
+                  <p className="productCategory">
+                    {getShopEaseCategory(product.category)}
+                  </p>
+
+                  <h3>{product.title}</h3>
+
+                  <p className="productRating">
+                    Rating: {product.rating} / 5
+                  </p>
+
+                  <div className="productPrice">
+                    <strong>${product.price}</strong>
+
+                    {product.discountPercentage > 0 && (
+                      <span>
+                        {Math.round(product.discountPercentage)}% OFF
+                      </span>
+                    )}
+                  </div>
+
+                  <Link
+                    className="productButton"
+                    to={`/product/${product.id}`}
+                  >
+                    View Product
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </main>

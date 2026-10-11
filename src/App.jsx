@@ -4,8 +4,11 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import "./App.css";
+import Wishlist from "./pages/Wishlist";
 
 function EmptyPage() {
   return (
@@ -27,9 +30,13 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/products/:category" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/wishlist" element={<EmptyPage />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<EmptyPage />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route
+            path="/order-confirmation/:id"
+            element={<OrderConfirmation />}
+          />
+<Route path="/wishlist" element={<Wishlist />} />
           <Route path="/profile" element={<EmptyPage />} />
           <Route path="*" element={<EmptyPage />} />
         </Routes>
