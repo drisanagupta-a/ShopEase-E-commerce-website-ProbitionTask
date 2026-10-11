@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Trash2, Minus, Plus, ShoppingBag, ArrowLeft } from "lucide-react";
 import { useToast } from "../context/useToast";
-import "../styles/cart.css";
+import "../styles/Cart.css";
 
 function Cart() {
   const [cart, setCart] = useState(() => {
