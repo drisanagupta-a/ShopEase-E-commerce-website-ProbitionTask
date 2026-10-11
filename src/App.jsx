@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import "./App.css";
 
@@ -27,7 +28,7 @@ function App() {
           <Route path="/products/:category" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/wishlist" element={<EmptyPage />} />
-          <Route path="/cart" element={<EmptyPage />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<EmptyPage />} />
           <Route path="/profile" element={<EmptyPage />} />
           <Route path="*" element={<EmptyPage />} />
