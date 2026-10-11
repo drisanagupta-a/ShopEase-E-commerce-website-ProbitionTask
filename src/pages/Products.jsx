@@ -286,12 +286,8 @@ function Products() {
                   />
                 </Link>
 
-                <div className="productInfo">
-                  <p className="productCategory">
-                    {getShopEaseCategory(product.category)}
-                  </p>
-
-                  <h3>{product.title}</h3>
+               <div className="productInfo">
+  <h3>{product.title}</h3>
 
                   <p className="productRating">
                     Rating: {product.rating} / 5
