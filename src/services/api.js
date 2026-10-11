@@ -1,5 +1,5 @@
 const API_URL = "https://dummyjson.com";
-
+const USD_TO_INR = 85;
 
 const categoryMap = {
   Electronics: [
@@ -35,6 +35,12 @@ const categoryMap = {
   ]
 };
 
+function convertProductPrice(product) {
+  return {
+    ...product,
+    price: Number((product.price * USD_TO_INR).toFixed(2))
+  };
+}
 
 export async function getProducts() {
   const response = await fetch(`${API_URL}/products?limit=100`);
@@ -45,14 +51,14 @@ export async function getProducts() {
 
   const data = await response.json();
 
-  // Keep only products belonging to ShopEase categories
-  return data.products.filter((product) =>
-    Object.values(categoryMap)
-      .flat()
-      .includes(product.category)
-  );
+  return data.products
+    .filter((product) =>
+      Object.values(categoryMap)
+        .flat()
+        .includes(product.category)
+    )
+    .map(convertProductPrice);
 }
-
 
 export async function getProduct(id) {
   const response = await fetch(`${API_URL}/products/${id}`);
@@ -63,7 +69,6 @@ export async function getProduct(id) {
 
   const product = await response.json();
 
-
   const isAllowed = Object.values(categoryMap)
     .flat()
     .includes(product.category);
@@ -72,9 +77,8 @@ export async function getProduct(id) {
     throw new Error("This product is not available in ShopEase.");
   }
 
-  return product;
+  return convertProductPrice(product);
 }
-
 
 export function getShopEaseCategory(productCategory) {
   for (const [category, categories] of Object.entries(categoryMap)) {

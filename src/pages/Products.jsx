@@ -4,6 +4,7 @@ import { Heart } from "lucide-react";
 import { useToast } from "../context/useToast";
 import { getProducts, getShopEaseCategory } from "../services/api";
 import "../styles/products.css";
+import { formatCurrency } from "../utils/formatCurrency";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -297,7 +298,7 @@ function Products() {
                   </p>
 
                   <div className="productPrice">
-                    <strong>${product.price}</strong>
+                    <strong>{formatCurrency(product.price)}</strong>
 
                     {product.discountPercentage > 0 && (
                       <span>

@@ -1,4 +1,4 @@
-/* GLOBAL HOMEPAGE FIXES */
+
 
 * {
   box-sizing: border-box;
@@ -14,7 +14,7 @@ body {
   color: #111111;
   font-family: Arial, Helvetica, sans-serif;
 }
-/* MAIN NAVBAR */
+
 
 .siteHeader {
   position: sticky;
@@ -100,22 +100,31 @@ body {
   stroke-width: 1.7;
 }
 
-/* CATEGORY NAVIGATION */
+
 
 .categoryNav {
-  width: 100%;
+  width: min(100% - 40px, 1000px);
+  margin: 12px auto 20px;
+  padding: 12px 24px;
   background: #ffffff;
-  border-bottom: 1px solid #e8e6df;
+  border: 1px solid #e8e6df;
+  border-radius: 14px;
+  box-sizing: border-box;
 }
 
 .categoryList {
-  width: 100%;
-  min-height: 76px;
-  padding: 10px 5%;
-  display: flex;
+   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(25px, 5vw, 70px);
+  gap: 32px;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.categoryList a {
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .categoryItem {
@@ -175,13 +184,13 @@ body {
   background: #ffd43b;
 }
 
-/* PREVENT DEFAULT LINK DECORATION */
+
 
 .siteHeader a {
   text-decoration: none;
 }
 
-/* TABLET NAVBAR */
+
 
 @media (max-width: 900px) {
   .mainNav {
@@ -218,7 +227,7 @@ body {
   }
 }
 
-/* MOBILE NAVBAR */
+
 
 @media (max-width: 480px) {
   .mainNav {
@@ -286,7 +295,7 @@ main {
   gap: 12px;
 }
 
-/* HERO SECTION */
+
 
 .heroSection {
   position: relative;
@@ -539,7 +548,7 @@ main {
   }
 }
 
-/* PROMOTIONAL BANNER */
+
 
 .promoBanner {
   width: 100%;
@@ -580,7 +589,7 @@ main {
   }
 }
 
-/* BEST SELLER INTRODUCTION */
+
 
 .bestSellerIntro {
   padding: 100px 7% 35px;
@@ -611,7 +620,7 @@ main {
   line-height: 1.9;
 }
 
-/* CATEGORY PRODUCT SECTIONS */
+
 
 .bestSellerSections {
   padding: 10px 0 70px;
@@ -658,7 +667,6 @@ main {
   text-decoration-color: #b9e8d0;
 }
 
-/* HORIZONTAL PRODUCT RAIL */
 
 .productRail {
   width: 100%;
@@ -688,7 +696,7 @@ main {
   border-radius: 10px;
 }
 
-/* PRODUCT CARD */
+
 
 .productCard {
   min-width: 0;
@@ -1353,7 +1361,7 @@ main {
   }
 }
 
-/* RESPONSIVE TABLET LAYOUT */
+
 
 @media (max-width: 1000px) {
   .heroSection {
@@ -1998,5 +2006,22 @@ main {
   .heroProduct {
     width: 250px;
     height: 180px;
+  }
+}
+@media (max-width: 768px) {
+  .categoryNav {
+    width: calc(100% - 24px);
+    padding: 12px;
+    margin: 10px auto 16px;
+  }
+
+  .categoryList {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .categoryList {
+    gap: 12px;
   }
 }
