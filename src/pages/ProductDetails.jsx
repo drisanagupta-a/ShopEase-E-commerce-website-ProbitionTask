@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProduct, getShopEaseCategory } from "../services/api";
 import { useToast } from "../context/useToast";
-import "../styles/productDetails.css";
+import "../styles/ProductDetails.css";
 
 function ProductDetails() {
   const { id } = useParams();
