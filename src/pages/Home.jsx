@@ -2,27 +2,27 @@ import Hero from "../components/Hero.jsx";
 import PromoBanner from "../components/PromoBanner.jsx";
 import BestSellerSection from "../components/BestSellerSection.jsx";
 import Footer from "../components/Footer.jsx";
-import {ArrowUpRight, Check, ShoppingBag, Sparkles} from "lucide-react";
+import { ArrowUpRight, Check, ShoppingBag, Sparkles } from "lucide-react";
 
 const categoryData = [
   {
     name: "Electronics",
-    label: "Tech",
+    label: "",
     color: "electronicsColor"
   },
   {
     name: "Fashion",
-    label: "Style",
+    label: "",
     color: "fashionColor"
   },
   {
     name: "Beauty",
-    label: "Beauty",
+    label: "",
     color: "beautyColor"
   },
   {
     name: "Home & Living",
-    label: "Home",
+    label: "",
     color: "homeColor"
   }
 ];
@@ -38,7 +38,6 @@ const Home = () => {
         <section className="bestSellerIntro">
           <div className="sectionHeading">
             <div className="sectionMeta">
-              <span className="sectionNumber">01</span>
               <span className="sectionLabel">BEST SELLERS</span>
             </div>
 
@@ -67,12 +66,7 @@ const Home = () => {
         </section>
 
         <section className="shopEaseEdit">
-          <div className="editHeader">
-            <div className="sectionMeta">
-              <span className="sectionNumber">02</span>
-              <span className="sectionLabel">THE SHOP EASE EDIT</span>
-            </div>
-          </div>
+          <div className="editHeader"></div>
 
           <div className="editContent">
             <div className="editIcon">
@@ -101,7 +95,6 @@ const Home = () => {
         <section className="trendingSection">
           <div className="trendingHeader">
             <div className="sectionMeta">
-              <span className="sectionNumber">03</span>
               <span className="sectionLabel">TRENDING NOW</span>
             </div>
 
@@ -132,8 +125,7 @@ const Home = () => {
         <section className="whySection">
           <div className="whyHeader">
             <div className="sectionMeta">
-              <span className="sectionNumber">04</span>
-              <span className="sectionLabel">WHY SHOEASE</span>
+              <span className="sectionLabel">WHY SHOPEASE</span>
             </div>
 
             <h2>
@@ -145,7 +137,6 @@ const Home = () => {
 
           <div className="whyGrid">
             <div className="whyItem">
-              <span>01</span>
               <h3>Curated choices</h3>
               <p>
                 Discover useful and interesting products
@@ -154,7 +145,6 @@ const Home = () => {
             </div>
 
             <div className="whyItem">
-              <span>02</span>
               <h3>Easy discovery</h3>
               <p>
                 Browse categories and find something that
@@ -163,7 +153,6 @@ const Home = () => {
             </div>
 
             <div className="whyItem">
-              <span>03</span>
               <h3>Made for everyone</h3>
               <p>
                 Electronics, fashion, beauty and home
@@ -188,7 +177,10 @@ const Home = () => {
               and things worth checking out.
             </p>
 
-            <form className="newsletterForm">
+            <form
+              className="newsletterForm"
+              onSubmit={(event) => event.preventDefault()}
+            >
               <input
                 type="email"
                 placeholder="Your email address"

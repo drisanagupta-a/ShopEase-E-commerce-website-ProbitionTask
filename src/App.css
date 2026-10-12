@@ -1905,7 +1905,7 @@ main {
   height: 2px;
 }
 
-/* Tablet */
+
 
 @media (max-width: 900px) {
   .mainNav {
@@ -1933,7 +1933,7 @@ main {
   }
 }
 
-/* Mobile */
+
 
 @media (max-width: 480px) {
   .mainNav {
@@ -2001,20 +2001,22 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-height: 38px;
   padding: 9px 16px;
-  border: 1px solid #111;
-  background: #111;
-  color: #fff;
+  border: 1px solid #ffd43b;
+  background: #ffd43b;
+  color: #111111;
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .navSignIn:hover {
-  background: #ffd43b;
-  color: #111;
+  background: #111111;
+  border-color: #111111;
+  color: #ffffff;
 }
 
 .navWelcome {
@@ -2028,7 +2030,7 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: inherit;
+  color: #ffd43b;;
   text-decoration: none;
 }
 
@@ -2044,5 +2046,342 @@ main {
 
   .navWelcome {
     display: none;
+  }
+}
+.bestSellerIntro {
+  padding: 76px 7% 38px;
+}
+
+.sectionHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(240px, 0.7fr);
+  align-items: end;
+  column-gap: 48px;
+  row-gap: 24px;
+}
+
+.bestSellerIntro .sectionMeta {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+.bestSellerIntro .sectionLabel,
+.trendingHeader .sectionLabel,
+.whyHeader .sectionLabel {
+  display: inline-block;
+  color: #927000;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.5;
+}
+
+.bestSellerIntro .sectionHeading h2 {
+  grid-column: 1;
+  margin: 0;
+  font-size: clamp(42px, 4.2vw, 64px);
+  font-weight: 850;
+  line-height: 1.04;
+  letter-spacing: -2px;
+}
+
+.bestSellerIntro .sectionHeading > p {
+  grid-column: 2;
+  margin: 0 0 6px;
+  color: #666;
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+/* The ShopEase Edit section */
+
+.shopEaseEdit {
+  padding: 80px 7%;
+}
+
+.editContent {
+  max-width: 1050px;
+}
+
+.editContent h2 {
+  margin: 32px 0 22px;
+  font-size: clamp(44px, 5vw, 72px);
+  font-weight: 850;
+  line-height: 1.02;
+  letter-spacing: -2px;
+}
+
+.editContent > p {
+  max-width: 650px;
+  margin: 0 0 28px;
+  color: #666;
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+.editIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #ffd43b;
+  color: #111;
+}
+
+
+
+.trendingSection {
+  padding: 76px 7%;
+}
+
+.trendingHeader {
+  margin-bottom: 36px;
+}
+
+.trendingHeader .sectionMeta {
+  margin-bottom: 18px;
+}
+
+.trendingHeader h2 {
+  margin: 0;
+  font-size: clamp(42px, 4.5vw, 66px);
+  font-weight: 850;
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
+
+.trendingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.trendingItem {
+  min-height: 270px;
+  padding: 32px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.trendingItemOne {
+  background: #d9ecff;
+}
+
+.trendingItemTwo {
+  background: #ffdce5;
+}
+
+.trendingItemThree {
+  background: #d8f3e7;
+}
+
+.trendingItem > span {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.trendingItem strong {
+  max-width: 320px;
+  font-size: 24px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+
+
+.whySection {
+  padding: 76px 7%;
+}
+
+.whyHeader {
+  margin-bottom: 64px;
+}
+
+.whyHeader .sectionMeta {
+  margin-bottom: 20px;
+}
+
+.whyHeader h2 {
+  margin: 0;
+  font-size: clamp(42px, 4.5vw, 66px);
+  font-weight: 850;
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
+
+.whyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 34px;
+}
+
+.whyItem {
+  padding-top: 28px;
+  border-top: 1px solid #dedbd3;
+}
+
+.whyItem h3 {
+  margin: 0 0 14px;
+  font-size: 23px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.whyItem p {
+  margin: 0;
+  color: #666;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+
+
+.newsletterSection {
+  padding: 78px 7%;
+}
+
+.newsletterContent {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.newsletterContent .sectionLabel {
+  font-size: 15px;
+  font-weight: 750;
+  letter-spacing: 1.8px;
+}
+
+.newsletterContent h2 {
+  margin: 28px 0 22px;
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 850;
+  line-height: 1.08;
+  letter-spacing: -2px;
+}
+
+.newsletterContent > p {
+  max-width: 620px;
+  margin: 0 auto 34px;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+
+
+@media (max-width: 800px) {
+  .bestSellerIntro,
+  .trendingSection,
+  .whySection,
+  .shopEaseEdit,
+  .newsletterSection {
+    padding: 54px 5%;
+  }
+
+  .sectionHeading {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .bestSellerIntro .sectionHeading h2,
+  .bestSellerIntro .sectionHeading > p {
+    grid-column: 1;
+  }
+
+  .bestSellerIntro .sectionHeading h2 {
+    font-size: clamp(38px, 7vw, 54px);
+  }
+
+  .bestSellerIntro .sectionHeading > p {
+    max-width: 550px;
+    font-size: 16px;
+  }
+
+  .editContent h2 {
+    font-size: clamp(40px, 7vw, 58px);
+  }
+
+  .editContent > p {
+    font-size: 16px;
+  }
+
+  .trendingGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .trendingItem {
+    min-height: 210px;
+  }
+
+  .whyGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .whyHeader {
+    margin-bottom: 38px;
+  }
+
+  .newsletterContent h2 {
+    font-size: clamp(38px, 7vw, 56px);
+  }
+}
+
+@media (max-width: 480px) {
+  .bestSellerIntro,
+  .trendingSection,
+  .whySection,
+  .shopEaseEdit,
+  .newsletterSection {
+    padding: 42px 5%;
+  }
+
+  .bestSellerIntro .sectionLabel,
+  .trendingHeader .sectionLabel,
+  .whyHeader .sectionLabel {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+  }
+
+  .bestSellerIntro .sectionHeading h2,
+  .trendingHeader h2,
+  .whyHeader h2 {
+    font-size: 38px;
+    letter-spacing: -1.2px;
+  }
+
+  .editContent h2 {
+    font-size: 39px;
+    letter-spacing: -1px;
+  }
+
+  .trendingItem {
+    min-height: 190px;
+    padding: 24px;
+  }
+
+  .trendingItem strong {
+    font-size: 21px;
+  }
+
+  .whyItem h3 {
+    font-size: 21px;
+  }
+
+  .whyItem p,.newsletterContent > p {
+    font-size: 15px;
+  }
+
+  .newsletterContent h2 {
+    font-size: 37px;
+    letter-spacing: -1px;
   }
 }

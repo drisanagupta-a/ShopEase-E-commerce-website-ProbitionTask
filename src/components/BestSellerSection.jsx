@@ -1,19 +1,9 @@
 import ProductRail from "./ProductRail";
 
-const BestSellerSection = ({category, index}) => {
+const BestSellerSection = ({ category }) => {
   return (
     <section className={`bestSellerSection ${category.color}`}>
       <div className="bestSellerHeader">
-        <div>
-          <span className="sectionNumber">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-
-          <span className="sectionLabel">
-            {category.label}
-          </span>
-        </div>
-
         <h2>{category.name}</h2>
       </div>
 
