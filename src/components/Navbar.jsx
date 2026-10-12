@@ -1,4 +1,5 @@
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
 import {
   Heart,
   ShoppingBag,
@@ -6,11 +7,10 @@ import {
   Search,
   LayoutGrid,
   Headphones,
-  Shirt,
-  House
+  Shirt
 } from "lucide-react";
 
-const CompactIcon = ({size = 21, strokeWidth = 1.8}) => {
+const CompactIcon = ({ size = 21, strokeWidth = 1.8 }) => {
   return (
     <svg
       width={size}
@@ -32,6 +32,8 @@ const CompactIcon = ({size = 21, strokeWidth = 1.8}) => {
 };
 
 const Navbar = () => {
+  const { user } = useAuth();
+
   const categories = [
     {
       name: "All",
@@ -56,7 +58,23 @@ const Navbar = () => {
     {
       name: "Home & Living",
       path: "/products/home-living",
-      icon: House
+      icon: ({ size = 21, strokeWidth = 1.8 }) => (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m3 10 9-7 9 7" />
+          <path d="M5 9v12h14V9" />
+          <path d="M9 21v-8h6v8" />
+        </svg>
+      )
     }
   ];
 
@@ -67,40 +85,67 @@ const Navbar = () => {
           SHOP EASE
         </NavLink>
 
-        <nav className="mainLinks">
+        <nav className="mainLinks" aria-label="Main navigation">
           <NavLink to="/">Home</NavLink>
           <NavLink to="/products">Shop</NavLink>
           <NavLink to="/products">New In</NavLink>
-          <a href="#about">About</a>
+          <a href="/#about">About</a>
         </nav>
 
         <div className="navActions">
-          <NavLink to="/products" aria-label="Search">
+          <NavLink
+            to="/products"
+            aria-label="Search products"
+            title="Search"
+          >
             <Search size={21} />
           </NavLink>
 
-          <NavLink to="/wishlist" aria-label="Wishlist">
+          <NavLink
+            to="/wishlist"
+            aria-label="Wishlist"
+            title="Wishlist"
+          >
             <Heart size={21} />
           </NavLink>
 
-          <NavLink to="/cart" aria-label="Cart">
+          <NavLink
+            to="/cart"
+            aria-label="Shopping cart"
+            title="Cart"
+          >
             <ShoppingBag size={21} />
           </NavLink>
 
-          <NavLink to="/profile" aria-label="Profile">
+          {!user ? (
+            <NavLink to="/login" className="navSignIn">
+              Sign In
+            </NavLink>
+          ) : (
+            <span className="navWelcome">
+              Hi, {user.name.split(" ")[0]}
+            </span>
+          )}
+
+          <NavLink
+            to="/profile"
+            className="navProfileLink"
+            aria-label="My profile"
+            title="My Profile"
+          >
             <UserRound size={21} />
           </NavLink>
         </div>
       </div>
 
-      <div className="categoryNav">
+      <nav className="categoryNav" aria-label="Product categories">
         <div className="categoryList">
-          {categories.map(({name, path, icon: Icon}) => (
+          {categories.map(({ name, path, icon: Icon }) => (
             <NavLink
               key={name}
               to={path}
               end={path === "/products"}
-              className={({isActive}) =>
+              className={({ isActive }) =>
                 `categoryItem ${isActive ? "activeCategory" : ""}`
               }
             >
@@ -112,7 +157,7 @@ const Navbar = () => {
             </NavLink>
           ))}
         </div>
-      </div>
+      </nav>
     </header>
   );
 };

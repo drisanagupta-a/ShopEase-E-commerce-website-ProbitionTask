@@ -1,0 +1,172 @@
+.authPage {
+  min-height: 75vh;
+  padding: 55px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f6f2;
+  color: #111111;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 460px;
+  padding: 42px;
+  background: #ffffff;
+  border: 1px solid #e8e6df;
+}
+
+.authBrand {
+  margin-bottom: 42px;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -1.2px;
+}
+
+.authEyebrow {
+  color: #a27d00;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.authCard h1 {
+  margin: 12px 0;
+  font-size: clamp(27px, 5vw, 34px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.authDescription {
+  margin: 0 0 28px;
+  color: #666666;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.authForm label {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.authInputWrap {
+  min-height: 49px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid #dedbd3;
+  background: #ffffff;
+  color: #777777;
+}
+
+.authInputWrap:focus-within {
+  border-color: #111111;
+  outline: 1px solid #111111;
+}
+
+.authInputWrap input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111111;
+  font: inherit;
+  font-size: 14px;
+}
+
+.authInputWrap input::placeholder {
+  color: #999999;
+}
+
+.passwordToggle {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: #666666;
+  cursor: pointer;
+}
+
+.authError {
+  margin: 5px 0;
+  color: #c62828;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.authSubmit {
+  width: 100%;
+  min-height: 49px;
+  margin-top: 14px;
+  padding: 12px 18px;
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.authSubmit:hover {
+  background: #ffd43b;
+  color: #111111;
+}
+
+.authSubmit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.authSwitch {
+  margin: 25px 0 0;
+  color: #555555;
+  font-size: 13px;
+  text-align: center;
+}
+
+.authSwitch a {
+  color: #111111;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.authBack {
+  display: block;
+  margin-top: 22px;
+  color: #666666;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.authBack:hover {
+  color: #111111;
+}
+
+@media (max-width: 480px) {
+  .authPage {
+    padding: 30px 15px;
+  }
+
+  .authCard {
+    padding: 28px 22px;
+  }
+
+  .authBrand {
+    margin-bottom: 30px;
+  }
+}
